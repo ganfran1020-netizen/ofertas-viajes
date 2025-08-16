@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ofertas de Viajes</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background: #f0f0f0; }
+        header { background: #007BFF; color: white; text-align: center; padding: 20px; }
+        nav a { color: white; margin: 0 10px; text-decoration: none; }
+        nav a:hover { text-decoration: underline; }
+        .search-filter { text-align: center; margin: 20px; }
+        .search-filter input, .search-filter button { padding: 10px; margin: 5px; }
+        .offers { display: flex; flex-wrap: wrap; justify-content: center; }
+        .offer-card { background: white; border-radius: 10px; margin: 10px; width: 250px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .offer-card:hover { transform: translateY(-5px); }
+        .offer-card img { width: 100%; height: 150px; object-fit: cover; }
+        .offer-card-content { padding: 10px; text-align: center; }
+        .offer-card h3 { margin: 5px 0; }
+        .offer-card p { color: #555; font-size: 14px; }
+        .offer-card .reserve-btn { background: #FF5733; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; }
+        .offer-card .reserve-btn:hover { background: #e04e2b; }
+        footer { background: #333; color: white; text-align: center; padding: 15px; margin-top: 20px; }
+        @media (max-width: 600px) { .offer-card { width: 90%; } }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Viajes y Ofertas</h1>
+        <nav>
+            <a href="#">Inicio</a>
+            <a href="#">Destinos</a>
+            <a href="#">Ofertas</a>
+            <a href="#">Contacto</a>
+        </nav>
+    </header>
+
+    <div class="search-filter">
+        <input type="text" id="searchInput" placeholder="Buscar destino...">
+        <input type="number" id="priceInput" placeholder="Precio máximo">
+        <button id="filterBtn">Filtrar</button>
+    </div>
+
+    <div class="offers" id="offers"></div>
+
+    <footer>
+        <p>Contacto: info@viajes.com | Redes sociales: @viajes</p>
+        <p><a href="https://github.com/ganfran1020-netizen/ofertas-viajes" target="_blank" style="color: #4DA8DA;">Ver en GitHub</a></p>
+        <p><a href="https://ganfran1020-netizen.github.io/ofertas-viajes/" target="_blank" style="color: #4DA8DA;">Ver Página en Vivo</a></p>
+    </footer>
+
+    <script>
+        const offers = [
+            { destino: "París", precio: 499, img: "https://source.unsplash.com/400x300/?paris", desc: "Vuela a la ciudad del amor y descubre sus encantos." },
+            { destino: "Roma", precio: 399, img: "https://source.unsplash.com/400x300/?rome", desc: "Historia y cultura en cada rincón de Roma." },
+            { destino: "Tokio", precio: 799, img: "https://source.unsplash.com/400x300/?tokyo", desc: "Experiencia única en la moderna y tradicional Tokio." },
+            { destino: "Nueva York", precio: 599, img: "https://source.unsplash.com/400x300/?newyork", desc: "Descubre la ciudad que nunca duerme." },
+            { destino: "Barcelona", precio: 299, img: "https://source.unsplash.com/400x300/?barcelona", desc: "Arte, playa y arquitectura en Barcelona." },
+            { destino: "Londres", precio: 450, img: "https://source.unsplash.com/400x300/?london", desc: "Historia y modernidad en la capital inglesa." }
+        ];
+
+        const offersContainer = document.getElementById('offers');
+        const searchInput = document.getElementById('searchInput');
+        const priceInput = document.getElementById('priceInput');
+        const filterBtn = document.getElementById('filterBtn');
+
+        function displayOffers(list) {
+            offersContainer.innerHTML = '';
+            list.forEach(offer => {
+                const card = document.createElement('div');
+                card.className = 'offer-card';
+                card.innerHTML = `
+                    <img src="${offer.img}" alt="${offer.destino}">
+                    <div class="offer-card-content">
+                        <h3>${offer.destino}</h3>
+                        <p>${offer.desc}</p>
+                        <p><strong>Precio: $${offer.precio}</strong></p>
+                        <button class="reserve-btn">Reservar</button>
+                    </div>
+                `;
+                offersContainer.appendChild(card);
+            });
+        }
+
+        filterBtn.addEventListener('click', () => {
+            const searchValue = searchInput.value.toLowerCase();
+            const maxPrice = parseFloat(priceInput.value) || Infinity;
+            const filtered = offers.filter(o => o.destino.toLowerCase().includes(searchValue) && o.precio <= maxPrice);
+            displayOffers(filtered);
+        });
+
+        displayOffers(offers);
+    </script>
+</body>
+</html>
